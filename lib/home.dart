@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -13,30 +13,44 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin{
   void initState() {
     super.initState();
   }
-  @override
 
+  num position = 1 ;
+
+  final key = UniqueKey();
+
+  doneLoading(String A) {
+    setState(() {
+      position = 0;
+    });
+  }
+
+  startLoading(String A) {
+    setState(() {
+      position = 1;
+    });
+  }
   @override
   void dispose() {
     super.dispose();
   }
   double progress = 0;
-  InAppWebViewController webView;
+
 
   Future<bool> _onBack() async {
     bool goBack;
 
-    var value = await webView.canGoBack(); // check webview can go back
-
-    if (value) {
-      webView.goBack(); // perform webview back operation
-
-      return false;
-    } else {
-      SystemChannels.platform.invokeMethod(
-          'SystemNavigator.pop'); // If user press Yes pop the page
-
-      return goBack;
-    }
+//    var value = await webView.canGoBack(); // check webview can go back
+//
+//    if (value) {
+//      webView.goBack(); // perform webview back operation
+//
+//      return false;
+//    } else {
+//      SystemChannels.platform.invokeMethod(
+//          'SystemNavigator.pop'); // If user press Yes pop the page
+//
+//      return goBack;
+//    }
   }
 
   @override
@@ -45,36 +59,27 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin{
     return WillPopScope(
       onWillPop: _onBack,
       child: Scaffold(
-          body: Container(
-              child: Column(
-                  children: <Widget>[
-        (progress != 1.0)
-            ? LinearProgressIndicator(
-                value: progress,
-                backgroundColor: Colors.grey[200],
-                valueColor: AlwaysStoppedAnimation<Color>(Colors.deepOrange))
-            : null, // Should be removed while showing
+          body: IndexedStack(
+              index: position,
+              children: <Widget>[
 
-        Expanded(
-          child: Container(
-            child: InAppWebView(
-              initialUrl: 'https://goga.co.ke/',
-              initialHeaders: {},
-              onWebViewCreated: (InAppWebViewController controller) {
-                webView = controller;
-              },
-              onLoadStart: (InAppWebViewController controller, String url) {},
-              onProgressChanged:
-                  (InAppWebViewController controller, int progress) {
-                setState(() {
-                  this.progress = progress / 100;
-                });
-              },
-              initialOptions: null,
-            ),
+                WebView(
+                  initialUrl: 'https://goga.co.ke/my-account/',
+                  javascriptMode: JavascriptMode.unrestricted,
+                  key: key,
+                  onPageFinished: doneLoading,
+                  onPageStarted: startLoading,
+                ),
+
+                Container(
+                  color: Colors.white,
+                  child: Center(
+                      child: CircularProgressIndicator()),
+                ),
+
+              ]
           ),
-        )
-      ].where((Object o) => o != null).toList()))),
+      ),
     ); //Remove null widgets
   }
 
