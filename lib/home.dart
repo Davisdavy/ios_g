@@ -7,7 +7,7 @@ class Home extends StatefulWidget {
   _HomeState createState() => _HomeState();
 }
 
-class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin{
+class _HomeState extends State<Home> {
 
   @override
   void initState() {
@@ -55,7 +55,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin{
 
   @override
   Widget build(BuildContext context) {
-    super.build(context);
+
     return WillPopScope(
       onWillPop: _onBack,
       child: Scaffold(
@@ -83,7 +83,4 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin{
     ); //Remove null widgets
   }
 
-  @override
-  // TODO: implement wantKeepAlive
-  bool get wantKeepAlive => true;
 }

@@ -8,7 +8,7 @@ class Help extends StatefulWidget {
   _HelpState createState() => _HelpState();
 }
 
-class _HelpState extends State<Help> with AutomaticKeepAliveClientMixin{
+class _HelpState extends State<Help> {
   @override
   void initState() {
     super.initState();
@@ -81,7 +81,5 @@ class _HelpState extends State<Help> with AutomaticKeepAliveClientMixin{
     ); //Remove null widgets
   }
 
-  @override
-  // TODO: implement wantKeepAlive
-  bool get wantKeepAlive => true;
+
 }

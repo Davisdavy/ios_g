@@ -7,8 +7,7 @@ class Categories extends StatefulWidget {
   _CategoriesState createState() => _CategoriesState();
 }
 
-class _CategoriesState extends State<Categories>
-    with AutomaticKeepAliveClientMixin{
+class _CategoriesState extends State<Categories> {
 
   @override
   void initState() {
@@ -78,7 +77,5 @@ class _CategoriesState extends State<Categories>
     ); //Remove null widgets
   }
 
-  @override
-  // TODO: implement wantKeepAlive
-  bool get wantKeepAlive => true;
+
 }
